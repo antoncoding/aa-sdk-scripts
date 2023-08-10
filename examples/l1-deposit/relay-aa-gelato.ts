@@ -1,7 +1,7 @@
 import AccountAbstraction, { OperationType } from '@safe-global/account-abstraction-kit-poc'
 import { GelatoRelayPack } from '@safe-global/relay-kit'
 import { MetaTransactionData, MetaTransactionOptions } from '@safe-global/safe-core-sdk-types'
-import { ethers, Signer } from 'ethers'
+import { ethers } from 'ethers'
 
 // dot env
 import dotenv from 'dotenv'

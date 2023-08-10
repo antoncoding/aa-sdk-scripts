@@ -24,7 +24,9 @@ contract LyraForwarder is ERC2771Context {
         bytes32 s;
     }
     
-    // ERC2771Context: setting the immutable trustedForwarder variable
+    /**
+     * @param _trustedForwarder GelatoRelay1BalanceERC2771 forwarder (0xd8253782c45a12053594b9deB72d8e8aB2Fca54c)
+     **/
     constructor(address _trustedForwarder, address _usdcLocal, address _usdcRemote,  address _bridge) ERC2771Context(_trustedForwarder) {
         usdcLocal = _usdcLocal;
         usdcRemote = _usdcRemote;
