@@ -1,9 +1,8 @@
-import {Wallet, BigNumber, Contract} from 'ethers'
+import {Wallet, BigNumberish, Contract, utils} from 'ethers'
 import usdcAbi from "./abi/usdc.json";
-import { splitSignature } from 'ethers/lib/utils';
+// const { ethers } = require("ethers");
 
-
-export const signPermit = async (wallet: Wallet, token: string, spender: string, value: BigNumber, deadline: number) => {
+export const signPermit = async (wallet: Wallet, token: string, spender: string, value: BigNumberish, deadline: number) => {
   const usdc = new Contract(token, usdcAbi, wallet.provider)
 
   const owner = wallet.address
@@ -53,7 +52,7 @@ export const signPermit = async (wallet: Wallet, token: string, spender: string,
     }
   )
 
-  const result = splitSignature(sig)
+  const result = utils.splitSignature(sig)
 
   return result
 }

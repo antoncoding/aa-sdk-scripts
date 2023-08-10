@@ -1,7 +1,7 @@
 import AccountAbstraction, { OperationType } from '@safe-global/account-abstraction-kit-poc'
 import { GelatoRelayPack } from '@safe-global/relay-kit'
 import { MetaTransactionData, MetaTransactionOptions } from '@safe-global/safe-core-sdk-types'
-import { ethers, BigNumber } from 'ethers'
+import { ethers, Signer } from 'ethers'
 
 // dot env
 import dotenv from 'dotenv'
@@ -51,7 +51,7 @@ async function relayTransaction() {
 
   // Build Tx 1: Permit USDC Transfer
   const deadline = Math.floor(Date.now() / 1000) + 86400;
-  const permitData = await signPermit(user, mainnetUSDC, predictedSafeAddress,  BigNumber.from(depositAmount), deadline)
+  const permitData = await signPermit(user, mainnetUSDC, predictedSafeAddress,  depositAmount, deadline)
   
   const usdcPermitTx: MetaTransactionData = {
     to: mainnetUSDC,
