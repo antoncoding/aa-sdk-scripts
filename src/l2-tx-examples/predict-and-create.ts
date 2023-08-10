@@ -8,10 +8,7 @@ dotenv.config()
 
 
 // Run this file:
-// Source examples/.env
-// npx ts-node examples/protocol-kit/index.ts
-
-// https://chainlist.org/?search=goerli&testnets=true
+// npx ts-node src/l2-tx-examples/predict-and-create.ts
 const RPC_URL = 'https://goerli.infura.io/v3/26251a7744c548a3adbc17880fc70764'
 const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
 
@@ -19,7 +16,6 @@ const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
 
 // Sponsor's signer instance key
 const sponsorSigner = new ethers.Wallet(process.env.SPONSOR_PRIVATE_KEY!, provider)
-// The user's singer instance
 const ownerSigner = new ethers.Wallet(process.env.OWNER_PRIVATE_KEY!, provider)
 
 const ethAdapterOwner1 = new EthersAdapter({

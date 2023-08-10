@@ -1,4 +1,3 @@
-import { signPermitSigature } from 'ethers-js-permit'
 import {Wallet, BigNumber, Contract} from 'ethers'
 import usdcAbi from "./abi/usdc.json";
 import { splitSignature } from 'ethers/lib/utils';
@@ -11,7 +10,6 @@ export const signPermit = async (wallet: Wallet, token: string, spender: string,
   const nonce = await usdc.nonces(wallet.address)
   const name = await usdc.name()
   const version = await usdc.version()
-  console.log("version", version)
   
   const chainId =  5; // -> this should be 1 for ethereum.
     
@@ -54,7 +52,6 @@ export const signPermit = async (wallet: Wallet, token: string, spender: string,
       deadline
     }
   )
-
 
   const result = splitSignature(sig)
 

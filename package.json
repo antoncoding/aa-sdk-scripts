@@ -20,7 +20,6 @@
     "@safe-global/relay-kit": "^1.2.0",
     "@safe-global/safe-core-sdk-types": "^2.2.0",
     "dotenv": "^16.3.1",
-    "ethers-js-permit": "^1.0.3",
     "node-ts": "^6.0.1"
   }
 }

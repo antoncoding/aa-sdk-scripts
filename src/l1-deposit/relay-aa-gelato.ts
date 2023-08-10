@@ -38,6 +38,8 @@ async function relayTransaction() {
   
   // initialize AA object
   const relayPack = new GelatoRelayPack(GELATO_RELAY_API_KEY)
+
+  // the AA object is controlled by the user!
   const safeAccountAbstraction = new AccountAbstraction(user)
   const sdkConfig = { relayPack }
   await safeAccountAbstraction.init(sdkConfig)
@@ -49,11 +51,8 @@ async function relayTransaction() {
 
   // Build Tx 1: Permit USDC Transfer
   const deadline = Math.floor(Date.now() / 1000) + 86400;
-  console.log({})
-
   const permitData = await signPermit(user, mainnetUSDC, predictedSafeAddress,  BigNumber.from(depositAmount), deadline)
   
-  console.log({permitData})
   const usdcPermitTx: MetaTransactionData = {
     to: mainnetUSDC,
     data: usdcContract.interface.encodeFunctionData("permit(address,address,uint256,uint256,uint8,bytes32,bytes32)", [
