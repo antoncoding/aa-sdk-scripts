@@ -1,4 +1,7 @@
 {
   "solidity.packageDefaultDependenciesContractsDirectory": "",
-  "solidity.packageDefaultDependenciesDirectory": "node_modules"
+  "solidity.packageDefaultDependenciesDirectory": "node_modules",
+  "markdown.styles": [
+    ".vscode/markdown-github.css"
+  ]
 }

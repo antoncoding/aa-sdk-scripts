@@ -1,10 +1,8 @@
-import hre from "hardhat";
 import { ethers } from "ethers";
 import forwarderBytecode from "../artifacts/contracts/LyraForwarder.sol/LyraForwarder.json";
 
 const deployerPK = process.env.SPONSOR_PRIVATE_KEY!
-const RPC_URL = 'https://goerli.infura.io/v3/26251a7744c548a3adbc17880fc70764'
-const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
+const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL!)
 const deployer = new ethers.Wallet(deployerPK, provider);
 
 async function main() {

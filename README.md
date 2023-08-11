@@ -1,6 +1,18 @@
-# Scripts
+# Gelato Relayer Example
 
-`src/l1-deposit`: deposit scripts
+* ethers version: v5.7.2
 
-* `relay-aa-gelato`: use account abstraction SDK from Gelato: user just need to sign permit + sign relay transaction, we will deploy a Safe contract for all users under the hood if it's not created before (with AA sdk) 
-* `relay-forwarder-gelato`: we route tx through our costume `LyraL2Forwarder` contract`: our contract call permit, transfer from and deposit to after verifying the signer is mapped to the 
+## Contract
+* `LyraForwarder` rely on the `GelatoRelay1Balance` contract to forward the tx, where we parse the verified payload and only pull funds from the user 
+
+## Example scripts
+
+### L1 Deposit
+
+Examples in `examples/l1-deposit`: combine Gelato relayer with different approaches to achieve gasless ERC20 deposit for users.
+
+- `relay-safe`: use account abstraction SDK from Safe: which deploys a Safe contract for a new user under the hood, and execute multiple transactions from the Safe
+- `relay-lyra-wrapper`: we route tx through our costume `LyraForwarder` contract.
+
+
+### L2 Transactions (AA)

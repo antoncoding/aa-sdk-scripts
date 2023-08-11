@@ -6,21 +6,16 @@ import { ethers } from 'ethers'
 import dotenv from 'dotenv'
 dotenv.config()
 
-
-// Run this file:
-// npx ts-node src/l2-tx-examples/predict-and-create.ts
-const RPC_URL = 'https://goerli.infura.io/v3/26251a7744c548a3adbc17880fc70764'
-const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
-
-// Initialize signers
+const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL!)
 
 // Sponsor's signer instance key
-const sponsorSigner = new ethers.Wallet(process.env.SPONSOR_PRIVATE_KEY!, provider)
+const executor = new ethers.Wallet(process.env.SPONSOR_PRIVATE_KEY!, provider)
+
 const ownerSigner = new ethers.Wallet(process.env.OWNER_PRIVATE_KEY!, provider)
 
 const ethAdapterOwner1 = new EthersAdapter({
   ethers,
-  signerOrProvider: sponsorSigner
+  signerOrProvider: executor
 })
 
 const txServiceUrl = 'https://safe-transaction-goerli.safe.global'
@@ -36,8 +31,6 @@ async function deploySafe() {
   const safeAccountConfig: SafeAccountConfig = {
     owners: [ownerSigner.address],
     threshold: 1,
-    // ... (Optional params) 
-    // https://github.com/safe-global/safe-core-sdk/tree/main/packages/protocol-kit#deploysafe
   }
 
   const predicted = await safeFactory.predictSafeAddress(safeAccountConfig)
@@ -54,7 +47,7 @@ async function deploySafe() {
   console.log(`https://app.safe.global/gor:${safeAddress}`)
 }
 
-async function depositToSafe(depositSigner = sponsorSigner, amount = '0.01') {
+async function depositToSafe(executorSigner = executor, amount = '0.01') {
 
   const safeAmount = ethers.utils.parseUnits(amount, 'ether').toHexString()
 
@@ -63,16 +56,15 @@ async function depositToSafe(depositSigner = sponsorSigner, amount = '0.01') {
     value: safeAmount
   }
 
-  const tx = await depositSigner.sendTransaction(transactionParameters)
+  const tx = await executorSigner.sendTransaction(transactionParameters)
 
   console.log(`Deposit Transaction: https://goerli.etherscan.io/tx/${tx.hash}`)
 }
 
 // Any address can be used for destination. In this example, we use vitalik.eth
-async function proposeTransaction(transferAmount = '0.005', destination = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045') {
+async function proposeTransaction(destination = '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045') {
 
-  // Create a transaction object
-  transferAmount = ethers.utils.parseUnits(transferAmount, 'ether').toString()
+  const transferAmount = ethers.utils.parseUnits('0.005', 'ether').toString()
 
   const safeTransactionData: SafeTransactionDataPartial = {
     to: destination,
@@ -80,13 +72,13 @@ async function proposeTransaction(transferAmount = '0.005', destination = '0xd8d
     value: transferAmount
   }
 
-  const ethAdapterOwner = new EthersAdapter({
+  const userAdapter = new EthersAdapter({
       ethers,
       signerOrProvider: ownerSigner
     })
 
   const safeSdkOwner = await Safe.create({
-      ethAdapter: ethAdapterOwner,
+      ethAdapter: userAdapter,
       safeAddress
     })
   
@@ -110,30 +102,6 @@ async function proposeTransaction(transferAmount = '0.005', destination = '0xd8d
   return { safeTxHash };
 }
 
-// async function confirmTransaction() {
-
-//   const pendingTransactions = (await safeService.getPendingTransactions(safeAddress)).results
-
-//   // Assumes that the first pending transaction is the transaction we want to confirm
-//   const transaction = pendingTransactions[0]
-//   const safeTxHash = transaction.safeTxHash
-
-//   const ethAdapterOwner2 = new EthersAdapter({
-//     ethers,
-//     signerOrProvider: owner2Signer
-//   })
-
-//   const safeSdkOwner2 = await Safe.create({
-//     ethAdapter: ethAdapterOwner2,
-//     safeAddress
-//   })
-
-//   const signature = await safeSdkOwner2.signTransactionHash(safeTxHash)
-//   const response = await safeService.confirmTransaction(safeTxHash, signature.data)
-
-//   console.log('Transaction confirmed:', response)
-//   return { safeTxHash, confirmationResponse: response }
-// }
 
 async function executeTransaction(safeTxHash: string, safeSdk: Safe = safeSdkSponsor) {
 
@@ -154,7 +122,6 @@ async function executeTransaction(safeTxHash: string, safeSdk: Safe = safeSdkSpo
 }
 
 async function main() {
-
   
   await deploySafe()
   await depositToSafe()
