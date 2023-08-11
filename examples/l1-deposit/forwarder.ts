@@ -15,7 +15,7 @@ import {signPermit} from "../permit"
 const OWNER_PK = process.env.OWNER_PRIVATE_KEY!
 
 const RPC_URL = 'https://goerli.infura.io/v3/26251a7744c548a3adbc17880fc70764'
-const provider = new ethers.JsonRpcProvider(RPC_URL)
+const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
 
 const GELATO_RELAY_API_KEY = process.env.GELATO_RELAY_API_KEY!;
 
@@ -42,7 +42,7 @@ async function relayTransaction() {
   
   // whole tx
   const minGas = '200000'
-  const { data } = await forwarder.forwardUSDCToL2.populateTransaction({
+  const { data } = await forwarder.populateTransaction.forwardUSDCToL2({
     value: depositAmount,
     deadline: deadline,
     v: permitData.v,
@@ -52,9 +52,9 @@ async function relayTransaction() {
   
   // Populate a relay request
   const request: CallWithERC2771Request = {
-    chainId: provider._network.chainId,
+    chainId: provider.network.chainId,
     target: lyraForwarder,
-    data: ethers.hexlify(data as string),
+    data: ethers.utils.hexlify(data as string),
     user: user.address
   };
 
