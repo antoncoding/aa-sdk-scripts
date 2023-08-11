@@ -15,7 +15,7 @@ import {signPermit} from "../permit"
 const SAFE_SIGNER_PRIVATE_KEY = process.env.OWNER_PRIVATE_KEY!
 
 const RPC_URL = 'https://goerli.infura.io/v3/26251a7744c548a3adbc17880fc70764'
-const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
+const provider = new ethers.JsonRpcProvider(RPC_URL)
 
 const GELATO_RELAY_API_KEY = process.env.GELATO_RELAY_API_KEY;
 

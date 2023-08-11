@@ -3,7 +3,7 @@ import forwarderBytecode from "../artifacts/contracts/LyraForwarder.sol/LyraForw
 
 const deployerPK = process.env.SPONSOR_PRIVATE_KEY!
 const RPC_URL = 'https://goerli.infura.io/v3/26251a7744c548a3adbc17880fc70764'
-const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
+const provider = new ethers.JsonRpcProvider(RPC_URL)
 const deployer = new ethers.Wallet(deployerPK, provider);
 
 async function main() {
@@ -16,7 +16,7 @@ async function main() {
   const factory = new ethers.ContractFactory(forwarderBytecode.abi, forwarderBytecode.bytecode, deployer)
   const forwarder = await factory.deploy(gelatoRelay1Balance, usdcGoerli, usdcRollup, standardBridge);
 
-  console.log(`LyraForwarder deployed to ${forwarder.address}`);
+  console.log(`LyraForwarder deployed to ${forwarder}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

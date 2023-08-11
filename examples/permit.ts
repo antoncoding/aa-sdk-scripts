@@ -1,6 +1,5 @@
-import {Wallet, BigNumberish, Contract, utils} from 'ethers'
+import {Wallet, BigNumberish, Contract, Signature} from 'ethers'
 import usdcAbi from "./abi/usdc.json";
-// const { ethers } = require("ethers");
 
 export const signPermit = async (wallet: Wallet, token: string, spender: string, value: BigNumberish, deadline: number) => {
   const usdc = new Contract(token, usdcAbi, wallet.provider)
@@ -12,7 +11,7 @@ export const signPermit = async (wallet: Wallet, token: string, spender: string,
   
   const chainId =  5; // -> this should be 1 for ethereum.
     
-  const sig = await wallet._signTypedData(
+  const sig = await wallet.signTypedData(
     {
       name,
       version,
@@ -52,7 +51,7 @@ export const signPermit = async (wallet: Wallet, token: string, spender: string,
     }
   )
 
-  const result = utils.splitSignature(sig)
+  const result = Signature.from(sig)
 
   return result
 }
