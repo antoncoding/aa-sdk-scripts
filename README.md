@@ -16,3 +16,7 @@ Examples in `examples/l1-deposit`: combine Gelato relayer with different approac
 
 
 ### L2 Transactions (AA)
+
+The default solution is we go with gelato relayer, which is identical to the `relay-safe` example in `example/l1-deposit`, only replace the `MetaTransactionData` array with transactions users sign
+
+- `own-executor`: if we don't want to use gelato relayer, we might need something similar to this to execute signed safe transaction for the users on the server side. (fully based on Safe sdk).
