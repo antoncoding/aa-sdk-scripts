@@ -45,10 +45,10 @@ async function transferWithGelato(transferAmount: string) {
     operation: OperationType.Call,
   };
   
-
+  // NOT sponsoring gas!
   const options: MetaTransactionOptions = {
     gasLimit,
-    isSponsored: true,
+    isSponsored: false,
   };
 
   // second signature will be signed here! handled by the SDK
