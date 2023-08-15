@@ -16,6 +16,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "@biconomy/smart-account": "^2.0.2",
     "@gelatonetwork/relay-context": "^3.0.0",
     "@gelatonetwork/relay-sdk": "^4.0.0",
     "@openzeppelin/contracts": "^4.9.3",
