@@ -27,8 +27,14 @@ npx ts-node examples/l2-tx-examples/gelato-safe.ts
 ## 2. ZeroDev SDK (4337)
 * Wallet contract: [https://github.com/zerodevapp/kernel](https://github.com/zerodevapp/kernel)
 
-## 4. Biconomy SDK (4337)
-* Wallet contract: [https://github.com/bcnmy/scw-contracts](https://github.com/bcnmy/scw-contracts)
+## 3. Biconomy SDK (4337)
 
-## 3.Alchemy (4337)
+* Wallet contract: [https://github.com/bcnmy/scw-contracts](https://github.com/bcnmy/scw-contracts)
+* Example [tx](https://goerli.etherscan.io/tx/0x13e11db109e730b3765049224235627f343fe8ee6c19ee136fb2d5746cc05cd5)
+
+```
+npx ts-node examples/l2-tx-examples/biconomy.ts
+```
+
+## 4.Alchemy (4337)
 * Wallet contract: [https://github.com/eth-infinitism/account-abstraction/tree/develop](https://github.com/eth-infinitism/account-abstraction/tree/develop)

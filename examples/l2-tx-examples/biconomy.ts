@@ -22,7 +22,6 @@ async function transferWithBiconomy(transferAmount: string) {
   // const walletProvider = new ethers.providers.Web3Provider(user);
   // get EOA address from wallet provider
   const eoa = await user.getAddress();
-  console.log(`EOA address: ${eoa}`);
 
   // get SmartAccount address from wallet provider
   const wallet = new SmartAccount(user, {
@@ -49,17 +48,16 @@ async function transferWithBiconomy(transferAmount: string) {
     gasLimit: 100000
   };
 
-  // const feeQuotes = await smartAccount.getFeeQuotes({
-  //   transaction: transaction,
-  // });
-  // const quote = feeQuotes.find((feeQuote) => feeQuote.symbol === "USDC") as FeeQuote
+  const feeQuotes = await smartAccount.getFeeQuotes({
+    transaction: transaction,
+  });
+  const quote = feeQuotes.find((feeQuote) => feeQuote.symbol === "USDC") as FeeQuote
   // console.log("quote", quote)
 
-  // const t = await smartAccount.createTransaction({
-  //   transaction: transaction,
-  //   // feeQuote: feeQuote[0],
-  // })
+  const userPaidTx = await smartAccount.createUserPaidTransaction({transaction, feeQuote: quote})
 
-  const tx = await smartAccount.sendTransaction({transaction: transaction})
-  console.log(tx)
+  const txHash = await smartAccount.sendUserPaidTransaction({tx: userPaidTx})
+  console.log('tx submitted:', txHash)
 }
+
+transferWithBiconomy('5000000').then(() => process.exit(0))
