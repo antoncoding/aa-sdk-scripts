@@ -35,6 +35,8 @@ async function transferWithZeroDev(transferAmount: string) {
     owner,
   })
   const accountAddress = await ecdsaProvider.getAddress()
+  // Error: getCounterFactualAddress failed
+  // at KernelSmartContractAccount.getAddress (/safe-demo/node_modules/@alchemy/aa-core/src/account/base.ts:147:13)
   console.log('Wallet address:', accountAddress)
 
   // Mint the NFT
