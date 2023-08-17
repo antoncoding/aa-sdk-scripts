@@ -26,6 +26,7 @@ npx ts-node examples/l2-tx-examples/gelato-safe.ts
 
 ## 2. ZeroDev SDK 
 * Wallet contract: [https://github.com/zerodevapp/kernel](https://github.com/zerodevapp/kernel)
+* uses alchemy's sdk in the backend (`@alchemy/aa-core`)
 
 ## 3. Biconomy SDK (4337)
 
