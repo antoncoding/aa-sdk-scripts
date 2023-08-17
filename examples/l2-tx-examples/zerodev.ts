@@ -1,6 +1,4 @@
 import { ethers } from "ethers";
-import { ChainId, FeeQuote, IWalletTransaction } from "@biconomy/core-types";
-import SmartAccount from "@biconomy/smart-account";
 import { addresses } from '../addresses';
 import { ECDSAProvider } from '@zerodev/sdk'
 import { PrivateKeySigner } from "@alchemy/aa-core"
@@ -36,8 +34,8 @@ async function transferWithZeroDev(transferAmount: string) {
     projectId: zerodevId,
     owner,
   })
-  // const accountAddress = await ecdsaProvider.getAddress()
-  // console.log('Wallet address:', accountAddress)
+  const accountAddress = await ecdsaProvider.getAddress()
+  console.log('Wallet address:', accountAddress)
 
   // Mint the NFT
   const { hash } = await ecdsaProvider.sendUserOperation({
