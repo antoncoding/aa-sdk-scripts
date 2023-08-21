@@ -64,7 +64,7 @@
   "resolved" "https://registry.npmjs.org/@adraffy/ens-normalize/-/ens-normalize-1.9.0.tgz"
   "version" "1.9.0"
 
-"@alchemy/aa-core@^0.1.0-alpha.1", "@alchemy/aa-core@^0.1.0-alpha.23":
+"@alchemy/aa-core@^0.1.0-alpha.1", "@alchemy/aa-core@^0.1.0-alpha.23", "@alchemy/aa-core@^0.1.0-alpha.25":
   "integrity" "sha512-+ELWkek38zw6Luon7Rvf60T2R7oxR8EYuTRZ7f+s8qxkMr2FqCyPuFlGRlx96cyEGprdFrPg08e0xicSjTMwiQ=="
   "resolved" "https://registry.npmjs.org/@alchemy/aa-core/-/aa-core-0.1.0-alpha.25.tgz"
   "version" "0.1.0-alpha.25"
@@ -73,7 +73,7 @@
     "eventemitter3" "^5.0.1"
     "viem" "^1.5.3"
 
-"@alchemy/aa-ethers@^0.1.0-alpha.23":
+"@alchemy/aa-ethers@^0.1.0-alpha.23", "@alchemy/aa-ethers@^0.1.0-alpha.25":
   "integrity" "sha512-OobCg490FUcErYRiW3fcJIxBOiUfR/wUjzStT5hloQM1ZOJykbyY8/PRhGMiQAOmX2pJl5WugedHa8nWQN0Hmg=="
   "resolved" "https://registry.npmjs.org/@alchemy/aa-ethers/-/aa-ethers-0.1.0-alpha.25.tgz"
   "version" "0.1.0-alpha.25"

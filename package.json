@@ -16,6 +16,8 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "@alchemy/aa-core": "^0.1.0-alpha.25",
+    "@alchemy/aa-ethers": "^0.1.0-alpha.25",
     "@biconomy/smart-account": "^2.0.2",
     "@gelatonetwork/relay-context": "^3.0.0",
     "@gelatonetwork/relay-sdk": "^4.0.0",
