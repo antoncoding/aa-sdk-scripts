@@ -8658,6 +8658,13 @@
     "node-addon-api" "^4.2.0"
     "node-gyp-build" "^4.3.0"
 
+"userop@^0.3.2":
+  "integrity" "sha512-7WbjoH0Brv1nUcB1RbC+l4wmt8a+bu06R/4H5nJKVhnzIkXUYoaj/WG/S/iMvlBna3Dbiev4Qv/o807Xj1HIzA=="
+  "resolved" "https://registry.npmjs.org/userop/-/userop-0.3.2.tgz"
+  "version" "0.3.2"
+  dependencies:
+    "ethers" "^5.7.2"
+
 "utf-8-validate@^5.0.2", "utf-8-validate@>=5.0.2":
   "integrity" "sha512-Z6czzLq4u8fPOyx7TU6X3dvUZVvoJmxSQ+IcrlmagKhilxlhZgxPK6C5Jqbkw1IDUmFTM+cz9QDnnLTwDz/2gQ=="
   "resolved" "https://registry.npmjs.org/utf-8-validate/-/utf-8-validate-5.0.10.tgz"

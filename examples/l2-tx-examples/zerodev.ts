@@ -34,25 +34,26 @@ async function transferWithZeroDev(transferAmount: string) {
         accountConfig: {
           rpcClient: rpcUrl
         },
-        providerConfig: {
-          // hardcoding a alchemy endpoint now (which supports AA) since the ones in viem package is not working
-          rpcUrl: 'https://eth-goerli.g.alchemy.com/v2/MwEaGyMty-bFDSlO6TXPCNNEsh_nZqSB',
+        // providerConfig: {
+        //   // hardcoding a alchemy endpoint now (which supports AA) since the ones in viem package is not working
+        //   rpcUrl: 'https://eth-goerli.g.alchemy.com/v2/MwEaGyMty-bFDSlO6TXPCNNEsh_nZqSB',
 
-        }
+        // }
       },
     })
   const accountAddress = await ecdsaProvider.getAddress()
   console.log('Wallet address:', accountAddress)
 
-  // Mint the NFT
-  const { hash } = await ecdsaProvider.sendUserOperation({
-    target: networkConfig.l1USDC as `0x${string}`,
-    data: usdcContract.interface.encodeFunctionData("transfer(address,uint256)", [
-      user.address, // owner
-      transferAmount,
-    ]) as `0x${string}`,
-  })
-  await ecdsaProvider.waitForUserOperationTransaction(hash as `0x${string}`)
+  
+  // const { hash } = await ecdsaProvider.sendUserOperation({
+  //   target: networkConfig.l1USDC as `0x${string}`,
+  //   // data: usdcContract.interface.encodeFunctionData("transfer(address,uint256)", [
+  //   //   user.address, // owner
+  //   //   transferAmount,
+  //   // ]) as `0x${string}`,
+  //   ethers: BigInt(transferAmount)
+  // })
+  // await ecdsaProvider.waitForUserOperationTransaction(hash as `0x${string}`)
   
   
 }
