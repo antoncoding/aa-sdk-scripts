@@ -42,6 +42,7 @@ npx ts-node examples/l2-tx-examples/biconomy.ts
 ## 1. Userop.js
 * Github repo: https://github.com/stackup-wallet/userop.js
 * can use zerodev kernel contracts
+* [example tx](https://explorerl2new-staging-9ns7v94tpj.t.conduit.xyz/tx/0x0e638f04e95a32f981714ed6a4aaf573e36157e94b51ac1915bdcb63323cce6c)
 
 ## 2. alchemy aa sdk
 
@@ -57,4 +58,4 @@ To support 4337 transactions on our network, we will need to run a bundler which
 
 * infinitism: https://github.com/eth-infinitism/bundler
 * Stackup: https://github.com/stackup-wallet/stackup-bundler
-* Alchemy service
+* Biconomy

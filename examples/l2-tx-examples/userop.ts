@@ -1,10 +1,8 @@
 import { ethers } from "ethers";
 import { addresses } from '../addresses';
 
-import { Client, Presets, Constants } from "userop";
+import { Client, Presets } from "userop";
 import { BundlerJsonRpcProvider } from "userop";
-
-console.log("Constants.SimpleFactory", Constants.ERC4337.SimpleAccount.Factory)
 
 import dotenv from 'dotenv'
 dotenv.config()
@@ -37,6 +35,9 @@ async function transferWithUserOp(transferAmount: string) {
     }
   );
 
+  const sender = simpleAccount.getSender();
+  console.log('sender, (need to be funded with no Paymaster setup)', sender)
+
   const client = await Client.init(rpcUrl, {overrideBundlerRpc: bundlerUrl, entryPoint: entryPoint});
 
   // just random transfer now
@@ -45,14 +46,14 @@ async function transferWithUserOp(transferAmount: string) {
 
   const res = await client.sendUserOperation(
     simpleAccount.execute(target, value, "0x"),
-    { onBuild: (op) => console.log("Signed UserOperation:", op)}
+    { onBuild: (op) => console.log("Signed UserOperation:", op.sender)}
   );
+  // console.log(op.sender)
+  // const res = await client.sendUserOperation(op);
   console.log(`UserOpHash: ${res.userOpHash}`);
 
-  console.log("Waiting for transaction...");
-  const ev = await res.wait();
-    
-  
+  // console.log("Waiting for transaction...");
+  const ev = await res.wait();  
   
 }
 
