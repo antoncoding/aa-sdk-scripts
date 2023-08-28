@@ -8,7 +8,7 @@ import {IEntryPoint} from "@account-abstraction/contracts/interfaces/IEntryPoint
 
 contract DumbPaymaster is BasePaymaster {
 
-    constructor() BasePaymaster(IEntryPoint(0x33a07c35557De1e916B26a049e1165D47d462f6B)) {}
+    constructor(IEntryPoint _entryPoint) BasePaymaster(_entryPoint) {}
 
     function _validatePaymasterUserOp(
       UserOperation calldata userOp, 
