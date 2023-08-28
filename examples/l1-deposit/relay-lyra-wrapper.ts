@@ -31,7 +31,7 @@ async function relayTransaction() {
 
   // Build Permit data
   const deadline = Math.floor(Date.now() / 1000) + 86400;
-  const permitData = await signPermit(user, networkConfig.l1USDC, networkConfig.l2USDC,  depositAmount, deadline)
+  const permitData = await signPermit(user, networkConfig.l1USDC, networkConfig.lyraForwarder,  depositAmount, deadline)
   
   // whole tx
   const minGas = '200000'
