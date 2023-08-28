@@ -16,6 +16,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "@account-abstraction/contracts": "^0.6.0",
     "@alchemy/aa-core": "^0.1.0-alpha.25",
     "@alchemy/aa-ethers": "^0.1.0-alpha.25",
     "@biconomy/smart-account": "^2.0.2",
