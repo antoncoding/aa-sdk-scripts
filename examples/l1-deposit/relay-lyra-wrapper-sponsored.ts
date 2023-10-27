@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { GelatoRelay, CallWithERC2771Request, ERC2771Type } from "@gelatonetwork/relay-sdk";
 import { addresses } from '../addresses';
-import {signPermit} from "../permit"
+import {signReceiveWithAuth} from "../permit"
 import forwarderAbi from "../abi/lyra-forwarder.json";
 
 // dot env
@@ -12,7 +12,7 @@ const OWNER_PK = process.env.OWNER_PRIVATE_KEY!
 const RPC_URL = process.env.RPC_URL!;
 const GELATO_RELAY_API_KEY = process.env.GELATO_RELAY_API_KEY!;
 
-const networkConfig = addresses.goerli
+const networkConfig = addresses.goerliOptimism
 
 // This will be connected wallet in Metamask
 const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
@@ -21,32 +21,40 @@ const user = new ethers.Wallet(OWNER_PK, provider);
 const relay = new GelatoRelay();
 
 // contract instances
-const forwarder = new ethers.Contract(networkConfig.lyraForwarder, forwarderAbi, user);
+const forwarder = new ethers.Contract(networkConfig.lyraForwarderSponsored, forwarderAbi, user);
 
-async function relayTransaction() {
-  const depositAmount = '77000000';
+/**
+ * npx ts-node examples/l1-deposit/relay-lyra-wrapper-sponsored.ts
+ * 
+ */
+async function relayTransactionSponsored() {
+  console.log('user address', user.address)
+  const depositAmount = '7000000';
 
   // calculate L2 safe address to deposit in, or it can be any recipient
-  const l2Safe = '0xe3b35100706f86257372478a2D41C2f317E16c5f'
+  const l2Receiver = user.address
 
   // Build Permit data
-  const deadline = Math.floor(Date.now() / 1000) + 86400;
-  const permitData = await signPermit(user, networkConfig.l1USDC, networkConfig.lyraForwarder,  depositAmount, deadline)
+  const now = Math.floor(Date.now() / 1000)
+  const deadline = now + 86400;
+  const {sig, nonce} = await signReceiveWithAuth(user, networkConfig.l1USDC, forwarder.address, depositAmount, now, deadline)
   
   // whole tx
-  const minGas = '200000'
-  const { data } = await forwarder.populateTransaction.forwardUSDCToL2({
+  const minGas = '300000'
+  const { data } = await forwarder.populateTransaction.depositUSDCSocketBridge(depositAmount, l2Receiver, minGas, {
     value: depositAmount,
-    deadline: deadline,
-    v: permitData.v,
-    r: permitData.r,
-    s: permitData.s,
-  }, depositAmount, l2Safe, minGas)
+    validAfter: now,
+    validBefore: deadline,
+    nonce: nonce,
+    v: sig.v,
+    r: sig.r,
+    s: sig.s,
+  })
   
   // Populate a relay request
   const request: CallWithERC2771Request = {
     chainId: provider.network.chainId,
-    target: networkConfig.lyraForwarder,
+    target: forwarder.address,
     data: ethers.utils.hexlify(data as string),
     user: user.address
   };
@@ -59,4 +67,4 @@ async function relayTransaction() {
 }
 
 
-relayTransaction();
+relayTransactionSponsored();

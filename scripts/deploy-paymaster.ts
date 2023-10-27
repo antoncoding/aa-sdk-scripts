@@ -5,9 +5,10 @@ const deployerPK = process.env.SPONSOR_PRIVATE_KEY!
 const provider = new ethers.providers.JsonRpcProvider(process.env.L2_RPC!)
 const deployer = new ethers.Wallet(deployerPK, provider);
 
+// npx hardhat run scripts/deploy-paymaster.ts
 async function main() {
 
-  const entryPoint = '0x33a07c35557De1e916B26a049e1165D47d462f6B'
+  const entryPoint = '0xC25Dc675669907Aee390C0144eA8bB3DFd33a4c7'
   
   const factory = new ethers.ContractFactory(SignaturePaymaster.abi, SignaturePaymaster.bytecode, deployer)
   const paymaster = await factory.deploy(entryPoint);

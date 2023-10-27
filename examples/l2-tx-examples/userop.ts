@@ -67,8 +67,7 @@ async function transferWithUserOp(transferAmount: string) {
       onBuild: (op) => console.log("Signed UserOperation:", op.sender),
     }
   );
-  // console.log(op.sender)
-  // const res = await client.sendUserOperation(op);
+  
   console.log(`UserOpHash: ${res.userOpHash}`);
 
   // console.log("Waiting for transaction...");

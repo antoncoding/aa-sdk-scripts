@@ -10,7 +10,7 @@ export const signPermit = async (wallet: Wallet, token: string, spender: string,
   const name = await usdc.name()
   const version = await usdc.version()
   
-  const chainId =  5; // -> this should be 1 for ethereum.
+  const chainId = await wallet.getChainId()
     
   const sig = await wallet._signTypedData(
     {
@@ -57,5 +57,60 @@ export const signPermit = async (wallet: Wallet, token: string, spender: string,
   return result
 }
 
+export const signReceiveWithAuth = async (wallet: Wallet, token: string, to: string, value: BigNumberish, validAfter: number, validBefore: number) => {
+    const usdc = new Contract(token, usdcAbi, wallet.provider)
+    const name = await usdc.name()
+    console.log(name)
+    const version = await usdc.version()
+    console.log(version)
+    const nonce = utils.keccak256(utils.hexValue(Math.floor(Math.random() * 1000000000000)))
+    const chainId = await wallet.getChainId()
+    const from = wallet.address
+    const sig = await wallet._signTypedData(
+      {
+        name,
+        version,
+        chainId,
+        verifyingContract: token
+      },
+      {
+        ReceiveWithAuthorization: [
+          {
+            name: 'from',
+            type: 'address'
+          },
+          {
+            name: 'to',
+            type: 'address'
+          },
+          {
+            name: 'value',
+            type: 'uint256'
+          },
+          {
+            name: 'validAfter',
+            type: 'uint256'
+          },
+          {
+            name: 'validBefore',
+            type: 'uint256'
+          },
+          {
+            name: 'nonce',
+            type: 'bytes32' // notice
+          }
+        ]
+      },
+      {
+        from, // from
+        to,
+        value,
+        validAfter,
+        validBefore,
+        nonce,
+      }
+    )
+    const result = utils.splitSignature(sig)
 
-  
+    return {sig: result, nonce}
+}
