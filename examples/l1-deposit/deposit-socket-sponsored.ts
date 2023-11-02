@@ -24,7 +24,7 @@ const relay = new GelatoRelay();
 const forwarder = new ethers.Contract(networkConfig.lyraForwarderSponsored, forwarderAbi, user);
 
 /**
- * npx ts-node examples/l1-deposit/relay-lyra-wrapper-sponsored.ts
+ * npx ts-node examples/l1-deposit/deposit-socket-sponsored.ts
  * 
  */
 async function relayTransactionSponsored() {
