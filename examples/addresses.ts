@@ -11,7 +11,12 @@ export const addresses = {
     l1USDC: '0x0f8BEaf58d4A237C88c9ed99D82003ab5c252c26', // our clone of USDC on op-goerli, with 18 decimals
     l2USDC: '0xe80F2a02398BBf1ab2C9cc52caD1978159c215BD', // our testnet USDC //
     l1StandardBridge: '0x0000000000000000000000000000000000000001',
-    lyraForwarderSponsored: '0xc2c7976e33fe6680b09fa97c607a300b619dfcb9',
-    lyraForwarderSelfPaying: '0xfe051Cc322F5124e53cA89611dD0c9a32F350a1C',
+    lyraForwarderSponsored: '0x95c470DCd92802943A55e9F9a4111A8dCcC5B0Fc',
+  },
+  optimism: {
+    l1USDC: '0x0f8BEaf58d4A237C88c9ed99D82003ab5c252c26', // real usdc, used to test selfPaying forwarder
+    l2USDC: '0xe80F2a02398BBf1ab2C9cc52caD1978159c215BD', // ribbon mainnet USDC
+    l1StandardBridge: '0x0000000000000000000000000000000000000001',
+    lyraForwarderSelfPaying: '',
   }
 }

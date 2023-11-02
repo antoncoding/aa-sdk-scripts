@@ -32,7 +32,7 @@ async function relayTransactionSponsored() {
   const depositAmount = '7000000';
 
   // calculate L2 safe address to deposit in, or it can be any recipient
-  const l2Receiver = user.address
+  const toSCW = true
 
   // Build Permit data
   const now = Math.floor(Date.now() / 1000)
@@ -40,8 +40,8 @@ async function relayTransactionSponsored() {
   const {sig, nonce} = await signReceiveWithAuth(user, networkConfig.l1USDC, forwarder.address, depositAmount, now, deadline)
   
   // whole tx
-  const minGas = '300000'
-  const { data } = await forwarder.populateTransaction.depositUSDCSocketBridge(depositAmount, l2Receiver, minGas, {
+  const minGas = '400000'
+  const { data } = await forwarder.populateTransaction.depositUSDCSocketBridge(depositAmount, toSCW, minGas, {
     value: depositAmount,
     validAfter: now,
     validBefore: deadline,

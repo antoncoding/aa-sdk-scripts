@@ -1,7 +1,6 @@
 [
   {
     "inputs": [
-      { "internalType": "address", "name": "_trustedForwarder", "type": "address" },
       { "internalType": "address", "name": "_usdcLocal", "type": "address" },
       { "internalType": "address", "name": "_usdcRemote", "type": "address" },
       { "internalType": "address", "name": "_bridge", "type": "address" },
@@ -21,7 +20,7 @@
   {
     "inputs": [
       { "internalType": "uint256", "name": "depositAmount", "type": "uint256" },
-      { "internalType": "address", "name": "l2Receiver", "type": "address" },
+      { "internalType": "bool", "name": "isScwWallet", "type": "bool" },
       { "internalType": "uint32", "name": "minGasLimit", "type": "uint32" },
       {
         "components": [
@@ -46,7 +45,7 @@
   {
     "inputs": [
       { "internalType": "uint256", "name": "depositAmount", "type": "uint256" },
-      { "internalType": "address", "name": "l2Receiver", "type": "address" },
+      { "internalType": "bool", "name": "isScwWallet", "type": "bool" },
       { "internalType": "uint32", "name": "minGasLimit", "type": "uint32" },
       {
         "components": [
@@ -72,6 +71,13 @@
     "inputs": [{ "internalType": "address", "name": "forwarder", "type": "address" }],
     "name": "isTrustedForwarder",
     "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "lightAccountFactory",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -109,5 +115,6 @@
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
-  }
+  },
+  { "stateMutability": "payable", "type": "receive" }
 ]

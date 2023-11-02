@@ -19,6 +19,10 @@ const config: HardhatUserConfig = {
     goerli: {
       url: "https://goerli.infura.io/v3/26251a7744c548a3adbc17880fc70764",
       accounts: [PRIVATE_KEY]
+    },
+    testnet: {
+      url: 'https://l2-prod-testnet-0eakp60405.t.conduit.xyz',
+      accounts: [PRIVATE_KEY]
     }
   },
   
