@@ -60,10 +60,8 @@ export const signPermit = async (wallet: Wallet, token: string, spender: string,
 export const signReceiveWithAuth = async (wallet: Wallet, token: string, to: string, value: BigNumberish, validAfter: number, validBefore: number) => {
     const usdc = new Contract(token, usdcAbi, wallet.provider)
     const name = await usdc.name()
-    console.log(name)
     const version = await usdc.version()
-    console.log(version)
-    const nonce = utils.keccak256(utils.hexValue(Math.floor(Math.random() * 1000000000000)))
+    const nonce = utils.keccak256(utils.hexlify(Math.floor(Math.random() * 1000000000000), {}))
     const chainId = await wallet.getChainId()
     const from = wallet.address
     const sig = await wallet._signTypedData(

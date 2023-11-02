@@ -1,15 +1,17 @@
-import { ethers } from 'ethers'
+import { ethers, utils } from 'ethers'
 import { GelatoRelay, CallWithERC2771Request, ERC2771Type } from "@gelatonetwork/relay-sdk";
 import { addresses } from '../addresses';
-import {signReceiveWithAuth} from "../permit"
+import { signReceiveWithAuth } from "../permit"
 import forwarderAbi from "../abi/lyra-forwarder.json";
+import usdcAbi from "../abi/usdc.json";
 
 // dot env
 import dotenv from 'dotenv'
 dotenv.config()
 
+const RPC_URL = 'https://optimism-goerli.blockpi.network/v1/rpc/public'
+
 const OWNER_PK = process.env.OWNER_PRIVATE_KEY!
-const RPC_URL = process.env.RPC_URL!;
 const GELATO_RELAY_API_KEY = process.env.GELATO_RELAY_API_KEY!;
 
 const networkConfig = addresses.goerliOptimism
@@ -28,8 +30,14 @@ const forwarder = new ethers.Contract(networkConfig.lyraForwarderSponsored, forw
  * 
  */
 async function relayTransactionSponsored() {
-  console.log('user address', user.address)
+  console.log('Depositing USDC with Gelato + Socket from', user.address)
+  console.log('NetworkID:\t', (await (provider.getNetwork())).chainId)
+  
   const depositAmount = '7000000';
+
+  const usdc = new ethers.Contract(networkConfig.l1USDC, usdcAbi, user.provider)
+  const balance = await usdc.balanceOf(user.address)
+  console.log('Balance:\t', utils.formatUnits(balance, 6), 'USDC')
 
   // calculate L2 safe address to deposit in, or it can be any recipient
   const toSCW = true
@@ -63,7 +71,27 @@ async function relayTransactionSponsored() {
 
   const relayResponse = await relay.sponsoredCallERC2771WithSignature(sigData.struct, sigData.signature, GELATO_RELAY_API_KEY);  
   
-  console.log(`https://relay.gelato.digital/tasks/status/${relayResponse.taskId} `);
+  // Print status
+  console.log('Gelato Task:\t', `https://relay.gelato.digital/tasks/status/${relayResponse.taskId}`);
+
+  for(let i = 1; i < 10; i++) {
+    const status = await relay.getTaskStatus(relayResponse.taskId);
+    if (status?.taskState === "CheckPending" ||  status?.taskState === "ExecPending" || status?.taskState === "WaitingForConfirmation") {
+      console.log('Task Status:\t', status?.taskState);
+      await new Promise(r => setTimeout(r, 2000));
+      continue  
+    }
+    
+    // All non waiting states:
+    console.log('Task Status:\t', status?.taskState);
+    if (status?.transactionHash) {
+      console.log('Transaction Hash:\t', status?.transactionHash);
+    } 
+    break
+  }
+
+  const balanceAfter = await usdc.balanceOf(user.address)
+  console.log('New Balance:\t', utils.formatUnits(balanceAfter, 6), 'USDC')
 }
 
 
