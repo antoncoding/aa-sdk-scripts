@@ -18,5 +18,9 @@ export const addresses = {
     l2USDC: '0xe80F2a02398BBf1ab2C9cc52caD1978159c215BD', // ribbon mainnet USDC
     l1StandardBridge: '0x0000000000000000000000000000000000000001',
     lyraForwarderSelfPaying: '',
+  },
+  mainnet: {
+    selfPayingForwarder: '0x790a951ad61f4f89397b576fb88deb2848331224',
+    usdc: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
   }
 }
