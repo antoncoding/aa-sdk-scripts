@@ -3,24 +3,22 @@ import AccountAbstraction, { OperationType } from '@safe-global/account-abstract
 import { GelatoRelayPack } from '@safe-global/relay-kit'
 import { MetaTransactionData, MetaTransactionOptions } from '@safe-global/safe-core-sdk-types'
 import { addresses } from '../addresses';
-
-// dot env
 import dotenv from 'dotenv'
-dotenv.config()
-
 import usdcAbi from "../abi/usdc.json";
 
+dotenv.config()
+
+// Required ENV variables
 const SAFE_SIGNER_PRIVATE_KEY = process.env.OWNER_PRIVATE_KEY!
 const GELATO_RELAY_API_KEY = process.env.GELATO_RELAY_API_KEY;
 
 const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL!)
 const user = new ethers.Wallet(SAFE_SIGNER_PRIVATE_KEY, provider);
-// network configs
-const networkConfig = addresses.goerli
-const gasLimit = "8000000"
+
+const USDC = addresses.goerli.l1USDC
 
 // contract instances
-const usdcContract = new ethers.Contract(networkConfig.l1USDC, usdcAbi, user);
+const usdcContract = new ethers.Contract(USDC, usdcAbi, user);
 
 /**
  * @command npx ts-node examples/aa-tx-examples/gelato-safe.ts
@@ -45,7 +43,7 @@ async function transferWithGelato(transferAmount: string) {
 
   // Example: USDC transfer Data
   const transferTx: MetaTransactionData = {
-    to: networkConfig.l1USDC,
+    to: USDC,
     data: usdcContract.interface.encodeFunctionData("transfer(address,uint256)", [
       user.address, // owner
       transferAmount,
@@ -56,7 +54,7 @@ async function transferWithGelato(transferAmount: string) {
   
   // NOT sponsoring gas!
   const options: MetaTransactionOptions = {
-    gasLimit,
+    gasLimit: '200000',
     isSponsored: false,
   };
 
