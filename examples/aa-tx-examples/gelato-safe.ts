@@ -1,4 +1,4 @@
-import { ethers } from 'ethers'
+import { ethers, utils } from 'ethers'
 import AccountAbstraction, { OperationType } from '@safe-global/account-abstraction-kit-poc'
 import { GelatoRelayPack } from '@safe-global/relay-kit'
 import { MetaTransactionData, MetaTransactionOptions } from '@safe-global/safe-core-sdk-types'
@@ -22,17 +22,26 @@ const gasLimit = "8000000"
 // contract instances
 const usdcContract = new ethers.Contract(networkConfig.l1USDC, usdcAbi, user);
 
-// main: 
+/**
+ * @command npx ts-node examples/aa-tx-examples/gelato-safe.ts
+ **/
 async function transferWithGelato(transferAmount: string) {
   
   // initialize AA object
-  console.log("start transferring...")
+  console.log(`Transfer with Gelato + Safe ... Owner: ${user.address}`)
+
   const relayPack = new GelatoRelayPack(GELATO_RELAY_API_KEY)
 
-  // the AA object is controlled by the user!
+  // the AA object
   const safeAccountAbstraction = new AccountAbstraction(user)
   const sdkConfig = { relayPack }
   await safeAccountAbstraction.init(sdkConfig)
+
+  const scw = await safeAccountAbstraction.getSafeAddress()
+  console.log(`Safe address:\t${scw}`)
+
+  const balance = await usdcContract.balanceOf(scw)
+  console.log(`Safe USDC balance:\t${utils.formatUnits(balance, 6)}`)
 
   // Example: USDC transfer Data
   const transferTx: MetaTransactionData = {
@@ -53,11 +62,8 @@ async function transferWithGelato(transferAmount: string) {
 
   // second signature will be signed here! handled by the SDK
   // if the Safe is not created at this point, it will be handled by the SDK and automatically deploy 1 before the trade
-  const response = await safeAccountAbstraction.relayTransaction([transferTx], options)
-  
-  console.log({ GelatoTaskId: response })
-  
-  console.log(`https://relay.gelato.digital/tasks/status/${response} `);
+  const taskId = await safeAccountAbstraction.relayTransaction([transferTx], options)
+  console.log(`https://relay.gelato.digital/tasks/status/${taskId} `);
 }
 
 transferWithGelato('7000000');

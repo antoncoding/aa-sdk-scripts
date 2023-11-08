@@ -26,7 +26,7 @@ Comparing different approaches with AA. Gas should be paid with USDC from the us
 
 Run script
 ```
-npx ts-node examples/gelato-safe.ts
+npx ts-node examples/aa-tx-examples/gelato-safe.ts
 ```
 * quite some execution delay
 * gas cost [transfer ERC20]: 206,673

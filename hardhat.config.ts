@@ -3,7 +3,7 @@ import { HardhatUserConfig } from "hardhat/config";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const PRIVATE_KEY = process.env.SPONSOR_PRIVATE_KEY!;
+const PRIVATE_KEY = process.env.OWNER_PRIVATE_KEY!;
 
 const config: HardhatUserConfig = {
   solidity: {

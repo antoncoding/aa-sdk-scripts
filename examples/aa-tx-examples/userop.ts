@@ -12,14 +12,15 @@ import usdcAbi from "../abi/usdc.json";
 const privateKey = process.env.OWNER_PRIVATE_KEY!
 const bundlerUrl = process.env.LOCAL_BUNDLER_URL!
 
-const entryPoint = process.env.LOCAL_ENTRY_POINT!
-const simpleAccountFactory = process.env.LOCAL_SIMPLEACCOUNT_FACTORY
-
 const rpcUrl = process.env.L2_RPC!; // Lyra staging
 const provider = new BundlerJsonRpcProvider(rpcUrl).setBundlerRpc(bundlerUrl);
 
 const user = new ethers.Wallet(privateKey, provider);
 
+// Our l2 testnet
+
+const entryPoint = '0x33a07c35557De1e916B26a049e1165D47d462f6B'!
+const simpleAccountFactory = '0x7E072a60c7297bD9d027B2a43cD0C27559aF2f58'
 const dumbPaymaster = "0xd198a6f2B3D07a03161FAB8006502e911e5c548e";
 const stagingUSDC = "0xAeE02dB1c65ce17211252f7eba0CDCcA07E95548"
 
@@ -36,7 +37,8 @@ const paymasterMiddleware: (context: IUserOperationMiddlewareCtx) => Promise<voi
   context.op.callGasLimit = BigNumber.from(context.op.callGasLimit).add(BigNumber.from(60000));
 }
 
-async function transferWithUserOp(transferAmount: string) {
+// Not working properly, this is only a script running on our staging env
+async function run(transferAmount: string) {
   // simpleAccount preset
   const simpleAccount = await Presets.Builder.SimpleAccount.init(
     user, // Any object compatible with ethers.Signer
@@ -75,4 +77,4 @@ async function transferWithUserOp(transferAmount: string) {
   result?.transactionHash && console.log(`Transaction hash: ${result.transactionHash}`);
 }
 
-transferWithUserOp('1000000').then(() => process.exit(0))
+run('1000000').then(() => process.exit(0))
