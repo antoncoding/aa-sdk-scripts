@@ -2001,7 +2001,7 @@
   "resolved" "https://registry.npmjs.org/@wagmi/chains/-/chains-1.6.0.tgz"
   "version" "1.6.0"
 
-"@zerodev/sdk@^4.0.8":
+"@zerodev/sdk@^4.2.1":
   "integrity" "sha512-PsqXOsn/k4doXYhVbrP6r0IvY4sZt+G7Hqq1TwQKRTmLrJbuiZuYgKAVHdGS9gUI9X9bPLLwNQ0ybsbam9TEOQ=="
   "resolved" "https://registry.npmjs.org/@zerodev/sdk/-/sdk-4.2.1.tgz"
   "version" "4.2.1"

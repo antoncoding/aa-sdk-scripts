@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { addresses } from '../addresses';
-import { ECDSAProvider, convertEthersSignerToAccountSigner } from '@zerodev/sdk';
+import { ECDSAProvider } from '@zerodev/sdk';
 import { LocalAccountSigner } from '@alchemy/aa-core';
 
 import dotenv from 'dotenv';
@@ -19,28 +19,21 @@ const user = new ethers.Wallet(privateKey, provider);
 
 const USDC = addresses.goerli.l1USDC;
 
-const usdcContract = new ethers.Contract(USDC, usdcAbi, user);
+const usdcContract = new ethers.Contract(USDC, usdcAbi, provider);
 
 async function transferWithZeroDev(transferAmount: string) {
-  console.log('rpcUrl', rpcUrl);
-
   console.log(`Transfer with ZeroDev sdk... Owner: ${user.address}`);
+
   const ecdsaProvider = await ECDSAProvider.init({
     projectId: zerodevId,
     owner,
-    opts: {
-      accountConfig: {
-        rpcClient: rpcUrl,
-      },
-      providerConfig: {
-        // hardcoding a alchemy endpoint now (which supports AA) since the ones in viem package is not working
-        rpcUrl: 'https://eth-goerli.g.alchemy.com/v2/MwEaGyMty-bFDSlO6TXPCNNEsh_nZqSB',
-      },
-    },
   });
-  console.log('init');
+  
   const accountAddress = await ecdsaProvider.getAddress();
   console.log('Kernel address:\t', accountAddress);
+
+  const balance = await usdcContract.balanceOf(accountAddress);
+  console.log(`Kernel balance:\t${ethers.utils.formatUnits(balance, 6)} USDC`);
 
   const { hash } = await ecdsaProvider.sendUserOperation({
     target: USDC as `0x${string}`,
@@ -48,7 +41,7 @@ async function transferWithZeroDev(transferAmount: string) {
       user.address, // owner
       transferAmount,
     ]) as `0x${string}`,
-    ethers: BigInt(transferAmount),
+    gasLimit: 200000,
   });
   await ecdsaProvider.waitForUserOperationTransaction(hash as `0x${string}`);
 }
